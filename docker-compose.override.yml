@@ -23,4 +23,4 @@ services:
       - "1433:1433"
     restart: always
     volumes:
-      - ./init:/docker-entrypoint-initdb.d
+      - ./data:/var/opt/mssql
