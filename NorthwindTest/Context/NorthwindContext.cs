@@ -9,12 +9,16 @@ namespace NorthwindTest.Context
         {
         }
 
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Customers> Customers { get; set; }
         public DbSet<Product> Products { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Customers>(entity => {
+                entity.HasKey(k => k.CustomerID);
+            });
             modelBuilder.Entity<Product>(entity =>
             {
+                entity.HasKey(k => k.ProductID);
                 entity.Property(e => e.UnitPrice).HasColumnType("decimal(18, 2)");
             });
 

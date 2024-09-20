@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NorthwindTest.Context;
 using NorthwindTest.DbSet;
+using NorthwindTest.Services;
 
 namespace NorthwindTest.Controllers
 {
@@ -10,23 +12,23 @@ namespace NorthwindTest.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ILogger<CustomerController> _logger;
-        private readonly NorthwindContext _context;
+        private readonly ICRUDService<Customers> _crudService;
         public CustomerController(ILogger<CustomerController> logger,
-            NorthwindContext northwindContext)
+            ICRUDService<Customers> crudService)
         {
             _logger = logger;
-            _context = northwindContext;
+            _crudService = crudService;
         }
 
         [HttpGet(Name = "GetAll")]
-        public async Task<IEnumerable<Customer>> Get()
+        public async Task<IEnumerable<Customers>> Get()
         {
-            return await _context.Customers.ToListAsync();
+            return await _crudService.GetAll();
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCustomerById(string id)
+        public async Task<ActionResult<Customers>> GetCustomerById(string id)
         {
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = await _crudService.GetById(id);
 
             if (customer == null)
             {
@@ -38,63 +40,38 @@ namespace NorthwindTest.Controllers
 
         // POST: api/Customers
         [HttpPost]
-        public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
+        public async Task<ActionResult<Customers>> PostCustomer(Customers customer)
         {
-            _context.Customers.Add(customer);
-            await _context.SaveChangesAsync();
-
+            if (customer.CustomerID is null) return BadRequest();
+            var createSuccess = await _crudService.Create(customer);
+            if(!createSuccess) return BadRequest();
             return CreatedAtAction(nameof(GetCustomerById), new { id = customer.CustomerID }, customer);
         }
 
         // PUT: api/Customers/5
         [HttpPut]
-        public async Task<IActionResult> PutCustomer(string id, Customer customer)
+        public async Task<IActionResult> PutCustomer(string id, Customers customer)
         {
             if (id != customer.CustomerID)
             {
                 return BadRequest();
             }
-
-            _context.Entry(customer).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CustomerExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            var updateSuccess = await _crudService.Update(customer);
+            if(!updateSuccess) return BadRequest();
+            return Ok();
         }
 
         // DELETE: api/Customers/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCustomer(string id)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer == null)
+            if (await GetCustomerById(id) is null)
             {
                 return NotFound();
             }
-
-            _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool CustomerExists(string id)
-        {
-            return _context.Customers.Any(e => e.CustomerID == id);
+            var deleteSuccess = await _crudService.DeleteById(id);
+            if(!deleteSuccess) return BadRequest();
+            return Ok();
         }
     }
 }

@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using NorthwindTest.Context;
+using NorthwindTest.DbSet;
+using NorthwindTest.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +12,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var connectString = builder.Configuration.GetConnectionString("DbConnection");
 builder.Services.AddDbContext<NorthwindContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("NorthwindConnection")));
+    options.UseSqlServer(connectString));
 
 builder.Services.AddCors(options =>
 {
@@ -23,6 +26,8 @@ builder.Services.AddCors(options =>
                    .AllowAnyHeader();
         });
 });
+
+builder.Services.AddScoped<ICRUDService<Customers>, CustomerCRUDService>();
 
 var app = builder.Build();
 

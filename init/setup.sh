@@ -1,0 +1,1 @@
+sqlcmd -S 127.0.0.1,1433 -U sa -P 'YourStrong@Passw0rd' -i C:\Users\katas\source\repos\NorthwindTest\init\init.sql
