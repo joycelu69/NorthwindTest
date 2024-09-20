@@ -7,8 +7,8 @@ namespace NorthwindTest.DbSet
     public class Customers
     {
         [Key]
-        public string? CustomerID { get; set; }
-        public string? CompanyName { get; set; }
+        public string CustomerID { get; set; } = "00000";
+        public string CompanyName { get; set; } = "test";
         public string? ContactName { get; set; }
         public string? ContactTitle { get; set; }
         public string? Address { get; set; }

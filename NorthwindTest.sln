@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorthwindTest", "NorthwindTest\NorthwindTest.csproj", "{107FAB70-14AB-4D85-8349-8D72EDF647C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NorthwindTest", "NorthwindTest\NorthwindTest.csproj", "{107FAB70-14AB-4D85-8349-8D72EDF647C7}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{60E4E141-1E97-4F4C-ABEB-1569E1E22714}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorthwindTest.UnitTest", "NorthwindTest.UnitTest\NorthwindTest.UnitTest.csproj", "{ACF94799-226C-4B64-B713-00DD52DE1389}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{60E4E141-1E97-4F4C-ABEB-1569E1E22714}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60E4E141-1E97-4F4C-ABEB-1569E1E22714}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60E4E141-1E97-4F4C-ABEB-1569E1E22714}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACF94799-226C-4B64-B713-00DD52DE1389}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACF94799-226C-4B64-B713-00DD52DE1389}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACF94799-226C-4B64-B713-00DD52DE1389}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACF94799-226C-4B64-B713-00DD52DE1389}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

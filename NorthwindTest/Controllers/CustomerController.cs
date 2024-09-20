@@ -45,7 +45,7 @@ namespace NorthwindTest.Controllers
             if (customer.CustomerID is null) return BadRequest();
             var createSuccess = await _crudService.Create(customer);
             if(!createSuccess) return BadRequest();
-            return CreatedAtAction(nameof(GetCustomerById), new { id = customer.CustomerID }, customer);
+            return Ok(customer);
         }
 
         // PUT: api/Customers/5
